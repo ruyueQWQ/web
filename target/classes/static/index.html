@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暖心安慰语句</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .title {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .comfort-box {
+            position: absolute;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            min-width: 250px;
+            transform-origin: center;
+            animation: float 6s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .comfort-box:hover {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+        }
+
+        .comfort-box p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .like-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            background-color: #ff3838;
+            transform: scale(1.1);
+        }
+
+        .like-count {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        .comfort-box:nth-child(odd) {
+            animation-delay: 0.5s;
+        }
+
+        .comfort-box:nth-child(3n) {
+            animation-delay: 1s;
+        }
+
+        .submit-form {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 90%;
+            max-width: 600px;
+            z-index: 1000;
+        }
+
+        .submit-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .submit-input:focus {
+            border-color: #4a90e2;
+        }
+
+        .submit-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #357abd;
+            transform: scale(1.05);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .submit-success {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2ed573;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+        }
+
+        .submit-success.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 28px;
+            }
+            .subtitle {
+                font-size: 16px;
+            }
+            .comfort-box {
+                max-width: 250px;
+                min-width: 200px;
+            }
+            .submit-form {
+                padding: 10px 15px;
+            }
+            .submit-input {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            .submit-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">暖心安慰</h1>
+        <p class="subtitle">愿这些话语能给你带来温暖和力量</p>
+    </div>
+    
+    <div class="submit-form">
+        <input type="text" class="submit-input" placeholder="输入一句温暖的话，传递给他人..." maxlength="100">
+        <button class="submit-btn">分享温暖</button>
+    </div>
+    
+    <div class="submit-success">提交成功！感谢您的分享 ❤️</div>
+
+    <script>
+        // 存储消息对象
+        let messages = [];
+        let boxes = [];
+        const MAX_BOXES = 20; // 增加最大框数限制
+        const CREATE_INTERVAL = 500; // 0.5秒创建一个新框
+        const MIN_DISPLAY_DURATION = 4000; // 最小显示时间4秒
+        const MAX_DISPLAY_DURATION = 5000; // 最大显示时间5秒
+        let messageIdCounter = 1000; // 用于本地消息的唯一ID
+
+        // 获取随机位置 - 改进位置分布，确保分布在整个屏幕
+        function getRandomPosition() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const boxWidth = 300;
+            const boxHeight = 150;
+            
+            // 确保位置均匀分布在整个屏幕，包括左右两侧
+            const x = Math.random() * (width - boxWidth);
+            const y = Math.random() * (height - boxHeight);
+            
+            return { x, y };
+        }
+
+        // 创建安慰语句框
+        function createComfortBox(message) {
+            const container = document.querySelector('.container');
+            const box = document.createElement('div');
+            box.className = 'comfort-box';
+            
+            // 为消息设置唯一ID
+            const msgId = message.id || messageIdCounter++;
+            box.dataset.id = msgId;
+            
+            // 设置随机位置
+            const position = getRandomPosition();
+            box.style.left = `${position.x}px`;
+            box.style.top = `${position.y}px`;
+            
+            // 设置随机动画延迟
+            const delay = Math.random() * 2;
+            box.style.animationDelay = `${delay}s`;
+            
+            // 内容
+            box.innerHTML = `
+                <p>${message.content}</p>
+                <span class="like-count">❤️ ${message.likes || 0}</span>
+                <button class="like-btn" data-id="${msgId}">👍</button>
+            `;
+            
+            // 设置初始透明度为0
+            box.style.opacity = '0';
+            box.style.transition = 'opacity 0.5s ease';
+            
+            // 添加到DOM
+            container.appendChild(box);
+            boxes.push(box);
+            
+            // 淡入效果
+            setTimeout(() => {
+                box.style.opacity = '1';
+            }, 50);
+            
+            // 点击事件 - 点赞
+            box.querySelector('.like-btn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                likeMessage(msgId, box, message);
+            });
+            
+            // 点击事件 - 移除
+            box.addEventListener('click', function() {
+                removeBox(box);
+            });
+            
+            // 设置自动移除 - 随机4-5秒
+            const displayDuration = MIN_DISPLAY_DURATION + Math.random() * (MAX_DISPLAY_DURATION - MIN_DISPLAY_DURATION);
+            setTimeout(() => {
+                removeBox(box);
+            }, displayDuration);
+        }
+
+        // 移除框
+        function removeBox(box) {
+            if (!boxes.includes(box)) return;
+            
+            box.style.transition = 'all 0.5s ease';
+            box.style.opacity = '0';
+            box.style.transform = 'scale(0.5)';
+            
+            setTimeout(() => {
+                if (box.parentNode) {
+                    box.parentNode.removeChild(box);
+                }
+                const index = boxes.indexOf(box);
+                if (index > -1) {
+                    boxes.splice(index, 1);
+                }
+            }, 500);
+        }
+
+        // 添加新框
+        function addNewBox() {
+            if (messages.length === 0) {
+                fetchMessages();
+                return;
+            }
+            
+            // 限制最大框数，避免过多
+            if (boxes.length >= MAX_BOXES) {
+                return;
+            }
+            
+            // 随机选择消息
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            const message = { ...messages[randomIndex] }; // 创建副本以避免修改原对象
+            createComfortBox(message);
+        }
+
+        // 点赞消息
+        function likeMessage(id, boxElement, originalMessage) {
+            // 先更新界面显示
+            const likeCountElement = boxElement.querySelector('.like-count');
+            let currentLikes = parseInt(likeCountElement.textContent.split(' ')[1]);
+            likeCountElement.textContent = `❤️ ${currentLikes + 1}`;
+            
+            // 如果是真实的数据库消息，发送点赞请求
+            if (id < 1000) { // 小于1000的是数据库ID
+                fetch(`/api/messages/like/${id}`, {
+                    method: 'POST'
+                })
+                .then(response => response.text())
+                .catch(error => console.error('点赞失败:', error));
+            }
+        }
+
+        // 从后端获取消息
+        function fetchMessages() {
+            fetch('/api/messages/random')
+                .then(response => response.json())
+                .then(data => {
+                    messages = data;
+                })
+                .catch(error => {
+                    console.error('获取消息失败:', error);
+                    // 如果获取失败，使用默认消息
+                    messages = [
+                        { id: 1, content: '你很好，别担心', likes: 0 },
+                        { id: 2, content: '你很聪明，一定能做到', likes: 0 },
+                        { id: 3, content: '每一天都是新的开始', likes: 0 },
+                        { id: 4, content: '你值得被爱', likes: 0 },
+                        { id: 5, content: '坚持下去，胜利就在前方', likes: 0 },
+                        { id: 6, content: '你已经做得很棒了', likes: 0 },
+                        { id: 7, content: '相信自己，你能行', likes: 0 },
+                        { id: 8, content: '今天也很努力呢', likes: 0 },
+                        { id: 9, content: '你比想象中更强大', likes: 0 },
+                        { id: 10, content: '继续保持，未来可期', likes: 0 }
+                    ];
+                });
+        }
+
+        // 启动定时器，每隔0.5秒生成一个新框
+        function startCreatingBoxes() {
+            setInterval(() => {
+                addNewBox();
+            }, CREATE_INTERVAL);
+        }
+
+        // 窗口调整大小时，不重新定位现有框
+        // 这样可以保持动画流畅性
+
+        // 提交新消息到数据库
+        function submitNewMessage() {
+            const input = document.querySelector('.submit-input');
+            const content = input.value.trim();
+            
+            if (!content) {
+                alert('请输入安慰语句');
+                return;
+            }
+            
+            // 发送POST请求到后端API
+            fetch('/api/messages/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content: content })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 清空输入框
+                    input.value = '';
+                    
+                    // 显示成功提示
+                    const successElement = document.querySelector('.submit-success');
+                    successElement.classList.add('show');
+                    
+                    // 3秒后隐藏提示
+                    setTimeout(() => {
+                        successElement.classList.remove('show');
+                    }, 3000);
+                    
+                    // 重新获取消息列表，包含新提交的消息
+                    fetchMessages();
+                } else {
+                    throw new Error('提交失败');
+                }
+            })
+            .catch(error => {
+                console.error('提交消息失败:', error);
+                alert('提交失败，请稍后重试');
+            });
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            fetchMessages();
+            // 延迟1秒后开始创建框，确保消息已经加载
+            setTimeout(startCreatingBoxes, 1000);
+            
+            // 绑定表单提交事件
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.addEventListener('click', submitNewMessage);
+            
+            // 添加回车键提交功能
+            const input = document.querySelector('.submit-input');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitNewMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

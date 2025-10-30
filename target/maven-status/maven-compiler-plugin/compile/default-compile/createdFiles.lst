@@ -1,0 +1,6 @@
+com\comfort\ComfortMessageApplication.class
+com\comfort\entity\ComfortMessage.class
+com\comfort\service\impl\ComfortMessageServiceImpl.class
+com\comfort\mapper\ComfortMessageMapper.class
+com\comfort\controller\ComfortMessageController.class
+com\comfort\service\ComfortMessageService.class
