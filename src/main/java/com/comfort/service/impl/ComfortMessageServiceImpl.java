@@ -18,7 +18,13 @@ public class ComfortMessageServiceImpl implements ComfortMessageService {
 
     @Override
     public List<ComfortMessage> getRandomMessages() {
-        return comfortMessageMapper.getRandomMessages();
+        // 默认返回10条消息
+        return comfortMessageMapper.getRandomMessagesByLimit(10);
+    }
+    
+    @Override
+    public List<ComfortMessage> getRandomMessages(int limit) {
+        return comfortMessageMapper.getRandomMessagesByLimit(limit);
     }
 
     @Override

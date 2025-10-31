@@ -21,8 +21,10 @@ public class ComfortMessageController {
      * 获取随机安慰语句
      */
     @GetMapping("/random")
-    public List<ComfortMessage> getRandomMessages() {
-        return comfortMessageService.getRandomMessages();
+    public List<ComfortMessage> getRandomMessages(@RequestParam(defaultValue = "50") Integer limit) {
+        // 确保limit在合理范围内，最小为1，最大为100
+        limit = Math.min(Math.max(limit, 1), 100);
+        return comfortMessageService.getRandomMessages(limit);
     }
 
     /**

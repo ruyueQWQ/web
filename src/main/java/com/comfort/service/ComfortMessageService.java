@@ -12,6 +12,11 @@ public interface ComfortMessageService {
      * 获取随机的安慰语句列表
      */
     List<ComfortMessage> getRandomMessages();
+    
+    /**
+     * 获取指定数量的随机安慰语句
+     */
+    List<ComfortMessage> getRandomMessages(int limit);
 
     /**
      * 增加点赞数

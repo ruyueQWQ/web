@@ -230,12 +230,15 @@
 
     <script>
         // 存储消息对象
-        let messages = [];
+        let messages = []; // 存储所有消息
+        let displayedMessageIds = new Set(); // 存储已显示的消息ID，避免重复
         let boxes = [];
         const MAX_BOXES = 20; // 增加最大框数限制
         const CREATE_INTERVAL = 500; // 0.5秒创建一个新框
         const MIN_DISPLAY_DURATION = 4000; // 最小显示时间4秒
         const MAX_DISPLAY_DURATION = 5000; // 最大显示时间5秒
+        const FETCH_INTERVAL = 10000; // 10秒获取一次新数据
+        const MESSAGE_LIMIT = 50; // 每次获取50条消息
         let messageIdCounter = 1000; // 用于本地消息的唯一ID
 
         // 获取随机位置 - 改进位置分布，确保分布在整个屏幕
@@ -365,27 +368,55 @@
 
         // 从后端获取消息
         function fetchMessages() {
-            fetch('/api/messages/random')
+            // 添加参数来获取50条消息
+            fetch(`/api/messages/random?limit=${MESSAGE_LIMIT}`)
                 .then(response => response.json())
                 .then(data => {
-                    messages = data;
+                    // 过滤掉已经显示过的消息
+                    const newMessages = data.filter(msg => !displayedMessageIds.has(msg.id));
+                    
+                    // 将新消息添加到消息列表中
+                    messages = [...messages, ...newMessages];
+                    
+                    // 记录新消息的ID，避免重复显示
+                    newMessages.forEach(msg => displayedMessageIds.add(msg.id));
+                    
+                    console.log(`获取了 ${newMessages.length} 条新消息，当前总消息数: ${messages.length}`);
+                    
+                    // 如果消息过多，可以保留最新的100条
+                    if (messages.length > 100) {
+                        messages = messages.slice(-100);
+                    }
                 })
                 .catch(error => {
                     console.error('获取消息失败:', error);
-                    // 如果获取失败，使用默认消息
-                    messages = [
-                        { id: 1, content: '你很好，别担心', likes: 0 },
-                        { id: 2, content: '你很聪明，一定能做到', likes: 0 },
-                        { id: 3, content: '每一天都是新的开始', likes: 0 },
-                        { id: 4, content: '你值得被爱', likes: 0 },
-                        { id: 5, content: '坚持下去，胜利就在前方', likes: 0 },
-                        { id: 6, content: '你已经做得很棒了', likes: 0 },
-                        { id: 7, content: '相信自己，你能行', likes: 0 },
-                        { id: 8, content: '今天也很努力呢', likes: 0 },
-                        { id: 9, content: '你比想象中更强大', likes: 0 },
-                        { id: 10, content: '继续保持，未来可期', likes: 0 }
-                    ];
+                    // 如果获取失败且消息列表为空，使用默认消息
+                    if (messages.length === 0) {
+                        const defaultMessages = [
+                            { id: 1, content: '你很好，别担心', likes: 0 },
+                            { id: 2, content: '你很聪明，一定能做到', likes: 0 },
+                            { id: 3, content: '每一天都是新的开始', likes: 0 },
+                            { id: 4, content: '你值得被爱', likes: 0 },
+                            { id: 5, content: '坚持下去，胜利就在前方', likes: 0 },
+                            { id: 6, content: '你已经做得很棒了', likes: 0 },
+                            { id: 7, content: '相信自己，你能行', likes: 0 },
+                            { id: 8, content: '今天也很努力呢', likes: 0 },
+                            { id: 9, content: '你比想象中更强大', likes: 0 },
+                            { id: 10, content: '继续保持，未来可期', likes: 0 }
+                        ];
+                        messages = defaultMessages;
+                        // 记录默认消息的ID
+                        defaultMessages.forEach(msg => displayedMessageIds.add(msg.id));
+                    }
                 });
+        }
+        
+        // 启动定时获取消息的定时器
+        function startFetchingMessages() {
+            // 立即获取一次消息
+            fetchMessages();
+            // 设置定时器，每隔10秒获取一次消息
+            setInterval(fetchMessages, FETCH_INTERVAL);
         }
 
         // 启动定时器，每隔0.5秒生成一个新框
@@ -444,7 +475,9 @@
         
         // 页面加载完成后初始化
         window.addEventListener('DOMContentLoaded', function() {
-            fetchMessages();
+            // 启动定时获取消息的功能
+            startFetchingMessages();
+            
             // 延迟1秒后开始创建框，确保消息已经加载
             setTimeout(startCreatingBoxes, 1000);
             
